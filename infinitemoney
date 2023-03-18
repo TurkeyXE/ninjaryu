@@ -1,0 +1,10 @@
+_G.Money = true
+
+while _G.Money do task.wait()
+task.spawn(function()
+local ohString1 = "Achievement"
+local ohString2 = "Kill5"
+
+game:GetService("ReplicatedStorage").RemoteEventFolder.UpdateManageClientEvent:FireServer(ohString1, ohString2)
+end)
+end
