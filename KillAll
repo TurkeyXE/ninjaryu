@@ -1,0 +1,53 @@
+
+_G.IsEnabled = true
+_G.Settings = {
+    WeaponName = "Katana",
+    TargetPart = "Head",
+    Damage = 9e9
+}
+
+local Players = game:GetService("Players")
+local DamageEvent = game:GetService("ReplicatedStorage").RemoteEventFolder.WeaponHit
+local Client = Players.LocalPlayer
+
+task.defer(function()
+	while _G.IsEnabled do
+	    for _, Player in ipairs(Players:GetPlayers()) do
+	        if Player == Client then continue end
+	        
+	        local Target = Player.Character
+	        if not Target then continue end
+	        
+	        local Humanoid = Target:FindFirstChild("Humanoid")
+	        if not Humanoid then continue end
+	        
+	        local HitPart = Target:FindFirstChild(_G.Settings.TargetPart)
+	        if not HitPart then continue end
+	        
+	        if Humanoid:GetState() == Enum.HumanoidStateType.Dead then continue end
+	        
+	        local WeaponName = _G.Settings.WeaponName
+	        local Weapon = Client.Character:FindFirstChild(WeaponName) or Client.Backpack:FindFirstChild(WeaponName)
+	        
+	        DamageEvent:FireServer(Weapon, {
+	            ["pid"] = 0,
+	            ["part"] = HitPart,
+	            ["d"] = 0,
+	            ["maxDist"] = 5,
+	            ["h"] = Humanoid,
+	            ["m"] = Enum.Material.Air,
+	            ["damage"] = _G.Settings.Damage,
+	            ["sid"] = ""
+	        })
+	        
+	    end
+	    
+	    task.wait(0.05)
+	end
+end)
+
+game:GetService("StarterGui"):SetCore("SendNotification", {
+	Title = "Credits";
+	Text = "Script created by: Kaiden#2444";
+	Duration = 5;
+})
