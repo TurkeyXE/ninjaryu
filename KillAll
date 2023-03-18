@@ -48,6 +48,6 @@ end)
 
 game:GetService("StarterGui"):SetCore("SendNotification", {
 	Title = "Credits";
-	Text = "Script created by: Kaiden#2444";
+	Text = "Script created by Turkey";
 	Duration = 5;
 })
